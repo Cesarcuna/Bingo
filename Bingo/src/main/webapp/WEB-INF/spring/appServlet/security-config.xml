@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<security:http>
+		<security:anonymous/>
+		<security:csrf disabled="true"/>
+		<security:intercept-url pattern="/app/javax.faces.resource/**" access="hasAnyRole('ROLE_ANONYMOUS, ROLE_ANONYMOUS')"/>
+		<security:intercept-url pattern="/app/usuarioUpdate" access="hasRole('ROLE_ANONYMOUS')"/>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_ANONYMOUS')" requires-channel="https"  />
+<!-- 		<security:intercept-url pattern="/app/login" access="hasRole('ROLE_ANONYMOUS')"/> -->
+<!-- 		<security:intercept-url pattern="/app/sesionExpirada" access="hasRole('ROLE_ANONYMOUS')"/> -->
+		<security:form-login  always-use-default-target="true"/>
+<!-- 		<security:logout logout-success-url="/app/login?logout=true" /> -->
+<!-- 		<security:access-denied-handler error-page="/app/acceso"/> -->
+<!-- 		<security:session-management> -->
+<!-- 			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/app/sesionExpirada" /> -->
+<!-- 		</security:session-management> -->
+	</security:http>
+	
+<!-- 	<bean id="authenticationFailureHandlerPeon" class="mx.com.saganet.bingo.beans.seguridad.AuthenticationFailureHandlerBingo" /> -->
+	
+	<security:authentication-manager>
+	<security:authentication-provider
+		user-service-ref="UsuariosServicio">
+		<security:password-encoder hash="bcrypt" />
+	</security:authentication-provider>
+</security:authentication-manager>
+
+	<bean id="UsuariosServicio" class="mx.com.saganet.bingo.beans.seguridad.UsuariosServicio">
+		<property name="dataSource" ref="dataSource" />
+		<property name="usersByUsernameQuery"
+			value="select nick, pw, habilitado from administracion.usuarios where nick = ?" />
+		<property name="authoritiesByUsernameQuery"
+			value="select nick, rol from administracion.autorizaciones where nick = ?" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="educacion.secciones">
+	<resultMap type="SeccionesEO" 					id="secciones">
+		<id column="SeccionesEO_id" 				property="id" 			javaType="Integer" />
+		<result column="SeccionesEO_nombre" 		property="nombre" 		javaType="String" />
+		<result column="SeccionesEO_descripcion" 	property="descripcion" 	javaType="String" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT SeccionesEO.pkey SeccionesEO_id,
+		coalesce(SeccionesEO.nombre,'') SeccionesEO_nombre,
+		coalesce(SeccionesEO.descipcion,'') SeccionesEO_descripcion
+		FROM catalogos.secciones SeccionesEO
+	</sql>
+	
+	<select id="listado" resultMap="secciones">
+		<include refid="query" />
+		order by SeccionesEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="secciones" parameterType="Integer">
+		<include refid="query" />
+		where SeccionesEO.pkey = #{value}
+	</select>
+</mapper>

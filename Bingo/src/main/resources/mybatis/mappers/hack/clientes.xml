@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hack.clientes">
+	<resultMap type="ClientesEO" 					id="clientes">
+		<id column="ClientesEO_id" 					property="id" 			javaType="Integer" />
+		<result column="ClientesEO_nickname" 		property="nickname" 	javaType="String" />
+		<result column="ClientesEO_password" 		property="password" 	javaType="String" />
+		<result column="ClientesEO_nombre" 			property="nombre" 		javaType="String" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT 	ContactoEO.pkey 		ClientesEO_id,
+				ContactoEO.nickname		ClientesEO_nickname,
+				ContactoEO.password 	ClientesEO_password,
+				ContactoEO.nombre 		ClientesEO_nombre
+		FROM 	hack.clientes		 	ClientesEO
+	</sql>
+	
+	<select id="listado" resultMap="clientes">
+		<include refid="query" />
+		order by ClientesEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="clientes" parameterType="Integer">
+		<include refid="query" />
+		where ClientesEO.pkey = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="ClientesEO">
+		INSERT INTO 
+			hack.clientes(nickname,password,nombre) 
+		VALUES (#{nickname},#{password},#{nombre})
+	</insert>
+</mapper>

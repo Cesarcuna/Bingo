@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="registro.RegistroMensajes">
+	<!-- <cache /> -->
+	<insert id="registro" parameterType="hashmap">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT
+			nextval('mensajes.registros_pkey_seq'::regclass)
+		</selectKey>
+		INSERT INTO mensajes.registros(
+            pkey, telefono, mensaje, programa, puerto)
+    	VALUES (#{id},#{telefono},#{mensaje},#{programa},#{puerto})
+	</insert>
+	
+	<select id="verificarId" resultType="hashmap" parameterType="Integer">
+		SELECT count(*) total
+  		FROM dia_d.movilizables
+  		WHERE id_interno=#{value}
+	</select>	
+	
+	<select id="verificarFolioPrograma" resultType="hashmap" parameterType="hashmap">
+		SELECT count(*) total
+  		FROM dia_d.movilizados r
+  		JOIN dia_d.movilizadores m ON(m.pkey=r.id_movilizador)
+  		WHERE r.folio=#{folio} and m.programa=#{programa}
+	</select>	
+
+</mapper>

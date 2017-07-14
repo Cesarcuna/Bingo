@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="administracion.SeccionesUpdate">
+	<select id="buscarSecciones" parameterType="hashmap" resultType="hashmap">
+		SELECT DISTINCT a.pkey, nombre, a.version, a.operacion
+  			FROM bingo.seccion a
+  			JOIN bingo.usuario_seccion b
+			ON a.pkey=b.id_seccion
+			WHERE b.id_usuario = #{id_usuario}
+		ORDER BY a.pkey
+	</select>
+</mapper>

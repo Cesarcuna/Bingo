@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="administracion.UsuarioUpdate">
+	<cache />
+	<resultMap type="UsuarioUpdateEO" id="usuarioUpdate">
+		<id column="UsuarioUpdateEO_id" property="id" javaType="Integer" />
+		<result column="UsuarioUpdateEO_nick" property="nick" javaType="String" />
+		<result column="UsuarioUpdateEO_nombre" property="nombre"
+			javaType="String" />
+		<result column="UsuarioUpdateEO_paterno" property="primerApellido"
+			javaType="String" />
+		<result column="UsuarioUpdateEO_materno" property="segundoApellido"
+			javaType="String" />
+		<result column="UsuarioUpdateEO_password" property="password"
+			javaType="String" />
+		<result column="UsuarioUpdateEO_version" property="version"
+			javaType="Integer" />
+		<result column="UsuarioUpdateEO_operacion" property="operacion"
+			javaType="Integer" />
+	</resultMap>
+
+	<sql id="query">
+		SELECT UsuarioUpdateEO.pkey UsuarioUpdateEO_id,
+		coalesce(UsuarioUpdateEO.nick,'') UsuarioUpdateEO_nick,
+		coalesce(UsuarioUpdateEO.password,'') UsuarioUpdateEO_password,
+		coalesce(UsuarioUpdateEO.nombre,'') UsuarioUpdateEO_nombre,
+		coalesce(UsuarioUpdateEO.paterno,'') UsuarioUpdateEO_paterno,
+		coalesce(UsuarioUpdateEO.materno,'') UsuarioUpdateEO_materno,
+		coalesce(UsuarioUpdateEO.version,0) UsuarioUpdateEO_version,
+		coalesce(UsuarioUpdateEO.operacion,-1) UsuarioUpdateEO_operacion
+		FROM bingo.usuarios UsuarioUpdateEO
+	</sql>
+
+	<select id="listado" resultMap="usuarioUpdate" parameterType="Integer">
+		<include refid="query" />
+		where UsuarioUpdateEO.pkey = #{value}
+	</select>
+
+	<select id="buscarUsuario" parameterType="String" resultMap="usuarioUpdate">
+		<include refid="query" />
+		where UsuarioUpdateEO.nick = #{value}
+	</select>
+</mapper>

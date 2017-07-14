@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="educacion.contactos">
+	<resultMap type="ContactoEO" 					id="contactos">
+		<id column="ContactoEO_id" 					property="id" 			javaType="Integer" />
+		<result column="ContactoEO_usuario" 		property="usuario" 		javaType="String" />
+		<result column="ContactoEO_telefono" 		property="telefono" 	javaType="String" />
+		<result column="ContactoEO_email" 			property="email" 		javaType="String" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT ContactoEO.pkey ContactoEO_id,
+		ContactoEO.usuario ContactoEO_usuario,
+		ContactoEO.telefono ContactoEO_telefono,
+		ContactoEO.email ContactoEO_email
+		FROM catalogos.contactos ContactoEO
+	</sql>
+	
+	<select id="listado" resultMap="contactos">
+		<include refid="query" />
+		order by ContactoEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="contactos" parameterType="Integer">
+		<include refid="query" />
+		where ContactoEO.pkey = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="ContactoEO">
+		INSERT INTO 
+		catalogos.contactos(usuario,telefono,email) 
+		VALUES (#{usuario},#{telefono},#{email})
+	</insert>
+</mapper>

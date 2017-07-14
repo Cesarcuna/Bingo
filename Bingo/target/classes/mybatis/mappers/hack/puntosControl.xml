@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="hack.puntosControl">
+		<resultMap type="PuntosControlEO" 				id="puntoscontrol">
+		<id column="PuntosControlEO_id" 				property="id" 			javaType="Integer" />
+		<result column="PuntosControlEO_idRuta" 		property="idRuta" 		javaType="Integer" />
+		<result column="PuntosControlEO_longitud" 		property="longitud" 	javaType="String" />
+		<result column="PuntosControlEO_latitud" 		property="latitud" 		javaType="String" />
+		<result column="PuntosControlEO_nombre" 		property="nombre" 		javaType="String" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT 	PuntosControlEO.pkey 		PuntosControlEO_id,
+				PuntosControlEO.id_ruta		PuntosControlEO_idRuta,
+				PuntosControlEO.longitud 	PuntosControlEO_longitud,
+				PuntosControlEO.latitud 	PuntosControlEO_latitud,
+				PuntosControlEO.nombre 		PuntosControlEO_nombre
+		FROM 	hack.punto_control	 		PuntosControlEO
+	</sql>
+	
+	<select id="listado" resultMap="puntoscontrol">
+		<include refid="query" />
+		order by PuntosControlEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="puntoscontrol" parameterType="Integer">
+		<include refid="query" />
+		where PuntosControlEO.pkey = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="PuntosControlEO">
+		INSERT INTO 
+			hack.punto_control(id_ruta,longitud,latitud,nombre) 
+		VALUES (#{idRuta},#{longitud},#{latitud},#{nombre})
+	</insert>
+
+</mapper>

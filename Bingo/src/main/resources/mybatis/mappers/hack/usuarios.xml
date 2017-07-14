@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hack.usuarios">
+	<resultMap type="UsuariosEO" 					id="usuarios">
+		<id column="UsuariosEO_id" 					property="id" 			javaType="Integer" />
+		<result column="UsuariosEO_nickname" 		property="nickname" 	javaType="Integer" />
+		<result column="UsuariosEO_password" 		property="password" 	javaType="Integer" />
+		<result column="UsuariosEO_nombre" 			property="nombre" 		javaType="String" />
+		<result column="UsuariosEO_apellidoP" 		property="apellidoP" 	javaType="String" />
+		<result column="UsuariosEO_apellidoM" 		property="apellidoM" 	javaType="String" />
+		<result column="UsuariosEO_idRuta" 			property="idRuta" 		javaType="Integer" />
+		<result column="UsuariosEO_tipoCamioneta" 	property="tipoCamioneta" 		javaType="String" />
+		
+		<result column="UsuariosEO_longitud" 	property="longitud" 		javaType="String" />
+		<result column="UsuariosEO_latitud" 	property="latitud" 			javaType="String" />	
+	</resultMap>
+	
+	<sql id="query">
+		SELECT 	UsuariosEO.pkey 				UsuariosEO_id,
+				UsuariosEO.nickname				UsuariosEO_nickname,
+				UsuariosEO.pass					UsuariosEO_password,
+				UsuariosEO.nombre				UsuariosEO_nombre,
+				UsuariosEO.apellido_p			UsuariosEO_apellidoP,
+				UsuariosEO.apellido_m			UsuariosEO_apellidoM,
+				UsuariosEO.id_ruta				UsuariosEO_idRuta,
+				UsuariosEO.tipo_transporte		UsuariosEO_tipoCamioneta,
+				b.longitud						UsuariosEO_longitud,
+				b.latitud						UsuariosEO_latitud
+		FROM 	hack.usuarios					UsuariosEO
+	</sql>
+	
+	<select id="listado" resultMap="usuarios" parameterType="Integer">
+		<include refid="query" />
+		JOIN hack.seg_usuarios b ON(UsuariosEO.nickname=b.id_usuario)
+		WHERE UsuariosEO.id_ruta=#{value}
+		order by UsuariosEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="usuarios" parameterType="Integer">
+		<include refid="query" />
+		where UsuariosEO.pkey = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="UsuariosEO">
+		INSERT INTO 
+			hack.usuarios(nickname,pass,nombre,apellido_p,apellido_m,id_ruta,tipo_transporte) 
+		VALUES (#{nickname},#{password},#{nombre},#{apellidoP},#{apellidoM},#{idRuta},#{tipoCamioneta})
+	</insert>
+</mapper>

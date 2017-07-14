@@ -1,0 +1,78 @@
+<android.support.v7.widget.ContentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/white"
+    tools:context="heme.mx.com.arrow.Fragments.tipos">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="70dp"
+                android:orientation="vertical"
+                android:id="@+id/configView">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    app:cardElevation="5dp">
+                    <RelativeLayout
+                        android:animateLayoutChanges="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/msgtitulo1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp"
+                            android:textSize="20dp"
+                            android:textColor="@color/colorPrimary"
+                            android:singleLine="false"
+                            android:text="Selecciona" />
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switchButton"
+                            android:layout_below="@id/msgtitulo1"
+                            android:padding="10dp"
+                            android:textSize="15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Eres un chofer:"/>
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/switchButton"
+                            android:visibility="gone">
+
+                        </android.support.v7.widget.AppCompatSpinner>
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabEstados"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_arrow"
+            app:backgroundTint="?attr/colorPrimary" />
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v7.widget.ContentFrameLayout>

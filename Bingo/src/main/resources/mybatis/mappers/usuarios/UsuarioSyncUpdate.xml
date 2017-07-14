@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="usuarios.UsuarioSyncUpdate">
+	<cache />
+	<insert id="registro" parameterType="hashmap">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT
+			nextval('bingo.sincronizacion_usuario_pkey_seq'::regclass)
+		</selectKey>
+		INSERT INTO bingo.sincronizacion_usuario(
+		pkey, id_usuario, imei, longitud, latitud, tipo)
+		VALUES (#{id}, #{id_usuario}, #{imei}, #{longitud}, #{latitud},#{tipo});
+	</insert>
+</mapper>

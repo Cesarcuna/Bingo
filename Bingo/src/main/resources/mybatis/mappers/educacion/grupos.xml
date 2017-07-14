@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="educacion.grupos">
+	<resultMap type="GruposEO" 						id="grupos">
+		<id column="GruposEO_id" 					property="id" 					javaType="Integer" />
+		<result		 column="GruposEO_idSeccion" 	property="idSeccion" 			javaType="Integer" />
+		<result column="GruposEO_idContacto" 	property="idContacto" 			javaType="Integer" />
+	</resultMap>
+
+	<sql id="query">
+		SELECT GruposEO.pkey GruposEO_id,
+		GruposEO.id_seccion GruposEO_idSeccion,
+		GruposEO.id_contacto GruposEO_idContacto
+		FROM catalogos.grupos GruposEO
+	</sql>
+	
+	<select id="listado" resultMap="grupos">
+		<include refid="query" />
+		order by GruposEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="grupos" parameterType="Integer">
+		<include refid="query" />
+		where GruposEO.id_seccion = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="GruposEO">
+		<selectKey keyProperty="idContacto" order="BEFORE" resultType="Integer">
+			select nextval('catalogos.contactos_pkey_seq'::regclass)
+		</selectKey>
+		INSERT INTO 
+		catalogos.grupos(id_seccion,id_contacto) 
+		VALUES (#{idSeccion},#{idContacto}-1)
+	</insert>
+</mapper>

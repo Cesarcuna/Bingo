@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="hack.seguimiento">
+	<resultMap type="SeguimientoUsuariosEO" 				id="seguimiento">
+		<id column="SeguimientoUsuariosEO_id" 				property="id" 			javaType="Integer" />
+		<result column="SeguimientoUsuariosEO_idUsuario" 	property="idUsuario" 	javaType="Integer" />
+		<result column="SeguimientoUsuariosEO_longitud" 	property="longitud" 	javaType="String" />
+		<result column="SeguimientoUsuariosEO_latitud" 		property="latitud" 		javaType="String" />	
+	</resultMap>
+	
+	<sql id="query">
+		SELECT 	SeguimientoUsuariosEO.pkey 			SeguimientoUsuariosEO_id,
+				SeguimientoUsuariosEO.id_usuario	SeguimientoUsuariosEO_idUsuario,
+				SeguimientoUsuariosEO.longitud		SeguimientoUsuariosEO_longitud,
+				SeguimientoUsuariosEO.latitud		SeguimientoUsuariosEO_latitud
+		FROM 	hack.seg_usuarios					SeguimientoUsuariosEO
+	</sql>
+	
+	<select id="listado" resultMap="seguimiento">
+		<include refid="query" />
+		order by SeguimientoUsuariosEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="seguimiento" parameterType="String">
+		<include refid="query" />
+		where SeguimientoUsuariosEO.id_usuario = #{value}
+	</select>
+	
+	<update id="actualizar" parameterType="SeguimientoUsuariosEO">
+		UPDATE hack.seg_usuarios
+		SET(longitud=#{longitud},latitud=#{latitud})
+		WHERE id_usuario=#{idUsuario}
+	</update>
+	
+	<insert id="insertar" parameterType="SeguimientoUsuariosEO">
+		INSERT INTO 
+			hack.seg_usuarios(id_usuario,longitud,latitud) 
+		VALUES (#{idUsuario},#{longitud},#{latitud})
+	</insert>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hack.ruta">
+	<resultMap type="RutasEO" 					id="rutas">
+		<id column="RutasEO_id" 				property="id" 			javaType="Integer" />
+		<result column="RutasEO_nombre" 		property="nombre" 		javaType="String" />
+		<result column="RutasEO_rutas" 		property="rutas" 		javaType="String" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT 	RutasEO.pkey 		RutasEO_id,
+				RutasEO.nombre		RutasEO_nombre,
+				RutasEO.nodos		RutasEO_rutas
+		FROM 	hack.rutas			RutasEO
+	</sql>
+	
+	<select id="listado" resultMap="rutas">
+		<include refid="query" />
+		order by RutasEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="rutas" parameterType="Integer">
+		<include refid="query" />
+		where RutasEO.pkey = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="RutasEO">
+		INSERT INTO 
+			hack.rutas(nombre) 
+		VALUES (#{nombre})
+	</insert>
+</mapper>

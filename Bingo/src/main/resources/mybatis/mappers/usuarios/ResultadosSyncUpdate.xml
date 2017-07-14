@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="usuarios.ResultadosSyncUpdate">
+	<!-- <cache /> -->
+	<insert id="registro" parameterType="hashmap">
+		<selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+			SELECT
+			nextval('bingo.resultados_pkey_seq'::regclass)
+		</selectKey>
+		INSERT INTO bingo.resultados(
+		pkey, id_usuario, id_seccion, casilla,
+		contestados, foto_tomada,
+		longitud, latitud, imei,
+		contestados_fila_columna)
+		VALUES (#{id}, #{usuario},
+		#{seccion},
+		#{casilla},
+		#{contestados},#{fechafoto},#{longitud},#{latitud},#{imei},#{filacolumna});
+	</insert>
+</mapper>

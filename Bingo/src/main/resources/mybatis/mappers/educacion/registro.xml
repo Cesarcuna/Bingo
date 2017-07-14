@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="educacion.registro">
+	<resultMap type="RegistroEO" 						id="registro">
+		<id column="RegistroEO_id" 						property="id" 					javaType="Integer" />
+		<result column="RegistroEO_fecha" 				property="fecha" 				javaType="String" />
+		<result column="RegistroEO_informado" 			property="informado" 			javaType="Boolean" />
+		<result column="RegistroEO_idContingente" 	property="idContingente" 			javaType="Integer"/>
+		<result column="RegistroEO_idGrupos" 		property="idGrupos" 			javaType="Integer" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT RegistroEO.pkey RegistroEO_id,
+		RegistroEO.id_contingente RegistroEO_idContingente,
+		RegistroEO.id_grupo RegistroEO_idGrupos,
+		RegistroEO.fecha RegistroEO_fecha,
+		RegistroEO.informado RegistroEO_informado
+		FROM catalogos.registro RegistroEO
+	</sql>
+	
+	<select id="listado" resultMap="registro">
+		<include refid="query" />
+		where RegistroEO.informado=false
+		order by RegistroEO.pkey ASC
+		LIMIT 5
+	</select>
+	
+	<select id="porId" resultMap="registro" parameterType="Integer">
+		<include refid="query" />
+		where RegistroEO.informado=false AND RegistroEO.pkey = #{value}
+	</select>
+	
+	<update id="actualizar" parameterType="RegistroEO">
+		UPDATE catalogos.registro
+		SET informado=#{informado}
+		WHERE pkey=#{id}
+	</update>
+	
+	<insert id="insertar" parameterType="RegistroEO">
+		INSERT INTO 
+		catalogos.registro(id_contingente,id_grupo,fecha,informado) 
+		VALUES (#{idContingente},#{idGrupos},now(),'false')
+	</insert>
+	
+</mapper>

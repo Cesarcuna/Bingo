@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="educacion.contingente">
+	<resultMap type="ContingenteEO" 						id="contingente">
+		<id column="ContingenteEO_id" 						property="id" 					javaType="Integer" />
+		<result column="ContingenteEO_unidadMedida" 		property="unidadMedida" 		javaType="String" />
+		<result column="ContingenteEO_UnidadMedidaValor" 	property="UnidadMedidaValor" 	javaType="Integer" />
+		<result column="ContingenteEO_nombre" 				property="nombre" 				javaType="String" />
+		<result column="ContingenteEO_descripcion" 			property="descripcion" 			javaType="String" />
+		<result column="ContingenteEO_acciones" 			property="acciones" 			javaType="String" />
+	</resultMap>
+	
+	<sql id="query">
+		SELECT ContingenteEO.pkey ContingenteEO_id,
+		coalesce(ContingenteEO.unidad_medida,'') ContingenteEO_unidadMedida,
+		coalesce(ContingenteEO.unidad_medida_valor,0) ContingenteEO_UnidadMedidaValor,
+		coalesce(ContingenteEO.nombre,'') ContingenteEO_nombre,
+		coalesce(ContingenteEO.descirpcion,'') ContingenteEO_descripcion,
+		coalesce(ContingenteEO.acciones,'') ContingenteEO_acciones
+		FROM catalogos.contingente ContingenteEO
+	</sql>
+	
+	<select id="listado" resultMap="contingente">
+		<include refid="query" />
+		order by ContingenteEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="contingente" parameterType="Integer">
+		<include refid="query" />
+		where ContingenteEO.pkey = #{value}
+	</select>
+</mapper>

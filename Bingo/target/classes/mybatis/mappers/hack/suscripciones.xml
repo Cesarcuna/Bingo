@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hack.suscripciones">
+	<resultMap type="SuscripcionesEO" 				id="suscripciones">
+		<id column="SuscripcionesEO_id" 			property="id" 			javaType="Integer" />
+		<result column="SuscripcionesEO_idCliente" 	property="idCliente" 	javaType="Integer" />
+		<result column="SuscripcionesEO_idRuta" 	property="idRuta" 		javaType="Integer" />
+		<result column="SuscripcionesEO_fecha" 		property="fecha" 		javaType="String" />	
+	</resultMap>
+	
+	<sql id="query">
+		SELECT 	SuscripcionesEO.pkey 			SuscripcionesEO_id,
+				SuscripcionesEO.id_cliente		SuscripcionesEO_idCliente,
+				SuscripcionesEO.id_ruta			SuscripcionesEO_idRuta,
+				SuscripcionesEO.fecha			SuscripcionesEO_fecha
+		FROM 	hack.suscriptores				SuscripcionesEO
+	</sql>
+	
+	<select id="listado" resultMap="suscripciones">
+		<include refid="query" />
+		order by SuscripcionesEO.pkey ASC
+	</select>
+	
+	<select id="porId" resultMap="suscripciones" parameterType="Integer">
+		<include refid="query" />
+		where SuscripcionesEO.pkey = #{value}
+	</select>
+	
+	<insert id="insertar" parameterType="SuscripcionesEO">
+		INSERT INTO 
+			hack.suscriptores(id_cliente,id_ruta,fecha) 
+		VALUES (#{idCliente},#{idRuta},now())
+	</insert>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:faces="http://www.springframework.org/schema/faces"
+	xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.4.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/faces http://www.springframework.org/schema/faces/spring-faces-2.4.xsd">
+
+	<webflow-config:flow-registry id="flowRegistry"
+		flow-builder-services="facesFlowBuilderServices" base-path="/WEB-INF/flows">
+		<webflow-config:flow-location-pattern
+			value="/**/zflow.xml" />
+	</webflow-config:flow-registry>
+
+	<webflow-config:flow-executor id="flowExecutor"
+		flow-registry="flowRegistry">
+		<webflow-config:flow-execution-listeners>
+			<webflow-config:listener ref="facesContextListener"/>
+		</webflow-config:flow-execution-listeners>
+	</webflow-config:flow-executor>
+
+	<bean id="flowHandlerMapping"
+		class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+		<property name="flowRegistry" ref="flowRegistry">
+		</property>
+	</bean>
+	
+	<bean id="jsfFlowHandlerAdapter" class="org.springframework.faces.webflow.JsfFlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor">
+		</property>
+	</bean>
+	
+	<bean id="facesContextListener" class="org.springframework.faces.webflow.FlowFacesContextLifecycleListener">
+	</bean>
+	
+	<bean id="securityFlowExecutionListener"
+		class="org.springframework.webflow.security.SecurityFlowExecutionListener" />
+	
+	<faces:flow-builder-services id="facesFlowBuilderServices"/>
+	<faces:resources/>
+	
+	
+
+
+
+</beans>

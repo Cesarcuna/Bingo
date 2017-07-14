@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="administracion.CasillasUpdate">
+	<select id="buscarCasillas" parameterType="hashmap" resultType="hashmap">
+		SELECT DISTINCT a.pkey, tipo, a.version, a.operacion
+  			FROM bingo.casilla a
+  			JOIN bingo.usuario_seccion b
+			ON a.pkey=b.id_casilla
+			WHERE b.id_usuario = #{id_usuario}
+		ORDER BY a.pkey
+	</select>
+</mapper>
